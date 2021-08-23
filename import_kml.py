@@ -28,7 +28,6 @@ class Integration:
             self.kml.extract(Integration.KMZ_FILENAME, Integration.KML_FILENAME)
             parse_list = self.csv.parse(Integration.KML_FILENAME)
             self.csv.create(parse_list, Integration.CSV_FILENAME)
-            self.integration_import.import_process(Integration.CSV_FILENAME)
         finally:
             self.delete_files()
 
