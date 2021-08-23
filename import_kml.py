@@ -18,7 +18,7 @@ class Integration:
         self.kml = kml_file
         self.csv = csv_file
         self.integration_import = integration_import
-        self.integration_log = integration_log
+        self.log = integration_log
 
     def start_integration(self):
         self.log.info('Starting Integration')
