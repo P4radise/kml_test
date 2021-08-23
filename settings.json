@@ -4,5 +4,9 @@
     "ovAccessKey": "key",
     "ovSecretKey": "key",
     "importName": "import",
-    "importAction": "action"
+    "importAction": "action",
+
+    "packages": [
+        "requests", "onevizion", "jsonschema", "beautifulsoup4", "lxml"
+    ]
 }

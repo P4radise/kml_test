@@ -1,12 +1,19 @@
+from install_package import Package
+import json
+
+
+with open('settings.json', "rb") as PFile:
+    settings_data = json.loads(PFile.read().decode('utf-8'))
+
+required_package = settings_data["packages"]
+Package(required_package).install()
+
+
 from jsonschema import validate
 from import_kml import Integration, KML, CSV, Import
 from onevizion import IntegrationLog, LogLevel
-import json
 import re
 
-
-with open('settings.json', 'rb') as PFile:
-    settings_data = json.loads(PFile.read().decode('utf-8'))
 
 with open('settings_schema.json', 'rb') as PFile:
     data_schema = json.loads(PFile.read().decode('utf-8'))
