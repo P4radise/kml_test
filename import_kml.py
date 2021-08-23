@@ -44,7 +44,7 @@ class KML:
 
     def __init__(self, url, integration_log):
         self.url = url
-        self.integration_log = integration_log
+        self.log = integration_log
 
     def download_kmz_file(self, kmz_filename):
         kmz_content = self.download()
@@ -91,7 +91,7 @@ class KML:
 class CSV:
 
     def __init__(self, integration_log):
-        self.integration_log = integration_log
+        self.log = integration_log
 
     def parse(self, kml_filename):
         parse_list = []
@@ -174,7 +174,7 @@ class Import:
         self.secret_key = secret_key
         self.import_name = import_name
         self.import_action = import_action
-        self.integration_log = integration_log
+        self.log = integration_log
 
     def import_process(self, csv_filename):
         import_id = self.get_import()
