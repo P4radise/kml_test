@@ -11,7 +11,7 @@ Package(required_package).install()
 
 from jsonschema import validate
 from import_kml import Integration, KML, CSV, Import
-from onevizion import IntegrationLog, LogLevel
+from integration_log import build_logger
 import re
 
 
@@ -32,13 +32,7 @@ import_action = settings_data['importAction']
 
 url_onevizion_without_protocol = re.sub('^http://|^https://', '', settings_data['urlOneVizion'][:-1])
 
-with open('ihub_parameters.json', 'rb') as PFile:
-    ihub_data = json.loads(PFile.read().decode('utf-8'))
-
-process_id = ihub_data['processId']
-log_level = ihub_data['logLevel']
-
-integration_log = IntegrationLog(process_id, url_onevizion_without_protocol, ov_access_key, ov_secret_key, None, True, log_level)
+integration_log = build_logger()
 kml_file = KML(url_kmz, integration_log)
 csv_file = CSV(integration_log)
 integration_import = Import(url_onevizion, url_onevizion_without_protocol, ov_access_key, ov_secret_key, import_name, import_action, integration_log)
@@ -47,5 +41,5 @@ integration = Integration(kml_file, csv_file, integration_import, integration_lo
 try:
     integration.start_integration()
 except Exception as e:
-    integration_log.add(LogLevel.ERROR, str(e))
+    integration_log.info(str(e))
     raise e

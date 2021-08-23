@@ -1,4 +1,4 @@
-from onevizion import LogLevel, OVImport
+from onevizion import OVImport
 from bs4 import BeautifulSoup
 from datetime import datetime
 from enum import Enum
@@ -21,7 +21,7 @@ class Integration:
         self.integration_log = integration_log
 
     def start_integration(self):
-        self.integration_log.add(LogLevel.INFO, 'Starting Integration')
+        self.log.info('Starting Integration')
 
         try:
             self.kml.download_kmz_file(Integration.KMZ_FILENAME)
@@ -32,7 +32,7 @@ class Integration:
         finally:
             self.delete_files()
 
-        self.integration_log.add(LogLevel.INFO, 'Integration has been completed')
+        self.log.info('Integration has been completed')
 
     def delete_files(self):
         file_list = [f for f in os.listdir() if f.endswith(('.kmz', '.kml', '.csv'))]
@@ -54,7 +54,7 @@ class KML:
         url = self.url
         response = requests.get(url)
         if response.ok:
-            self.integration_log.add(LogLevel.INFO, 'KMZ file downloaded')
+            self.log.info('KMZ file downloaded')
             return response.content
         else:
             raise Exception(f'Failed download KMZ. Exception [{response.text}]')
@@ -85,7 +85,7 @@ class KML:
 
         kml.extract(kml_filename_to_extract)
         os.rename(kml_filename_to_extract, kml_filename)
-        self.integration_log.add(LogLevel.INFO, 'KML file extracted')
+        self.log.info('KML file extracted')
 
 
 class CSV:
@@ -150,7 +150,7 @@ class CSV:
                                 CSVHeader.FIRE_SIZE.value:fire_size, CSVHeader.FIRE_TYPE.value:fire_type, CSVHeader.LATITUDE.value:coordinates[1], \
                                     CSVHeader.LONGITUDE.value:coordinates[0]})
 
-        self.integration_log.add(LogLevel.INFO, 'KML file parsed')
+        self.log.info('KML file parsed')
         return parse_list
 
     def create(self, parse_list, csv_filename):
@@ -162,7 +162,7 @@ class CSV:
             writer.writeheader()
             writer.writerows(parse_list)
 
-        self.integration_log.add(LogLevel.INFO, 'CSV file created')
+        self.log.info('CSV file created')
 
 
 class Import:
@@ -194,7 +194,7 @@ class Import:
             if import_id is None:
                 raise Exception(f'Import \"{self.import_name}\" not found')
 
-            self.integration_log.add(LogLevel.INFO, f'Import \"{self.import_name}\" founded')
+            self.log.info(f'Import \"{self.import_name}\" founded')
         else:
             raise Exception(f'Failed to receive import. Exception [{str(response.text)}]')
 
@@ -203,7 +203,7 @@ class Import:
     def start_import(self, import_id, file_name):
         response = OVImport(self.url_onevizion_without_protocol, self.access_key, self.secret_key, import_id, file_name, self.import_action, isTokenAuth=True)
         if response.request.ok:
-            self.integration_log.add(LogLevel.INFO, f'Import \"{self.import_name}\" started')
+            self.log.info(f'Import \"{self.import_name}\" started')
         else:
             raise Exception(f'Failed to start import. Exception [{str(response.request.text)}]')
 
