@@ -2,7 +2,7 @@ import sys
 import subprocess
 
 
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', 'python_dependencies.txt'], stdout=subprocess.DEVNULL)
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', 'python_dependencies.txt'])
 
 
 from jsonschema import validate
