@@ -5,8 +5,4 @@
     "ovSecretKey": "key",
     "importName": "import",
     "importAction": "action",
-
-    "packages": [
-        "requests", "onevizion", "jsonschema", "beautifulsoup4", "lxml"
-    ]
 }
