@@ -1,19 +1,22 @@
-from install_package import Package
-import json
+import sys
+import subprocess
 
 
-with open('settings.json', "rb") as PFile:
-    settings_data = json.loads(PFile.read().decode('utf-8'))
-
-required_package = settings_data["packages"]
-Package(required_package).install()
+try:
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', 'python_dependencies.txt'])
+except Exception as e:
+    raise Exception(f'Failed to install package. Exception [{str(e)}]')
 
 
 from jsonschema import validate
 from import_kml import Integration, KML, CSV, Import
 from integration_log import build_logger
 import re
+import json
 
+
+with open('settings.json', "rb") as PFile:
+    settings_data = json.loads(PFile.read().decode('utf-8'))
 
 with open('settings_schema.json', 'rb') as PFile:
     data_schema = json.loads(PFile.read().decode('utf-8'))
